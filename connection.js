@@ -9,6 +9,6 @@ const DB=process.env.DATABASE
 //connection code
 mongoose.connect(DB).then(()=>{
     console.log('Data Base connection established')
-}).catch((error)=>{
-    console.log('err')
+}).catch((err)=>{
+    console.log(err)
 })
