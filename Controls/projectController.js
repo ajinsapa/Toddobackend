@@ -55,6 +55,49 @@ exports.viewProject=async(req,res)=>{
     }
 }
 
-//
+//Logic to delete project
+exports.deleteProject=async(req,res)=>{
+   console.log('inside api call to delete project')
+   const {id}=req.body
+   try {
+       const deleteTodo=await projectModel.deleteOne({_id:id})
+       if(deleteTodo){
+      res.status(200).json({message: "Todo Details deleted" });
+       }else{
+       res.status(400).json({ message:"Todo not found"});
+       }
+       
+   } catch (error) {
+       console.error(error);
+       res.status(500).json({ message: "Internal Server Error" });
+       
+   }
+
+
+}
+
+//Logic to edit project title
+exports.EditProject=async(req,res)=>{
+    console.log('inside api call to edit project title')
+    try{
+        const updateProject=await projectModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set:{
+                    title:req.body.title,
+                 
+                },
+            },
+            {new:true}
+        );
+        res.status(200).json({updateProject,message:'Project title edited'})
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+
+    }
+        
+}
+
 
 

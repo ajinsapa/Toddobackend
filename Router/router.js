@@ -33,4 +33,16 @@ router.delete('/todo/deleteTodo',todoController.delete)
 //Api to edit todo list
 router.post('/todo/editTodo/:id',todoController.editTodo)
 
+//Api to get single todo
+router.get('/todos/getSingleTodo/:id',todoController.getSingleTodo)
+
+//Api call to change status pending/completed
+router.put('/todo/updateStatus/:id',todoController.changeStatus)
+
+//Api call to delete project
+router.delete('/deleteProject/delete',projectController.deleteProject)
+
+//Api to edit project title
+router.post('/project/editProject/title/:id',projectController.EditProject)
+
 module.exports=router

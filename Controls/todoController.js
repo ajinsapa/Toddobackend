@@ -47,6 +47,27 @@ exports.getAllTodos = async (req, res) => {
   }
 }
 
+//Logic to get single Todo
+exports.getSingleTodo=async(req,res)=>{
+   console.log('inside api call to get single todo')
+   const {id}=req.params;
+   console.log(id);
+   try {
+    const singleTodo=await TodoModel.findOne({_id:id})
+    if(singleTodo){
+      res.status(200).json({singleTodo,message:'Fetched single Todo'})
+    }else{
+      res.status(400).json({message:'Todo not Found'})
+    }
+    
+   } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+    
+   }
+}
+
+
 //Logic to delete todo
 exports.delete=async(req,res)=>{
     console.log('inside Api call to delete todo')
@@ -92,4 +113,25 @@ exports.editTodo=async(req,res)=>{
     }
 
 
+}
+
+//Logic to change status pending/completed
+exports.changeStatus=async(req,res)=>{
+  console.log('inside api call to change status')
+  const { id } = req.params;
+  try {
+    const updateStatus=await TodoModel.findOne({_id:id})
+    if(!updateStatus){
+      res.status(404).json({ message: 'Todo item not found' });
+    }
+    updateStatus.status =updateStatus.status === 'pending' ? 'completed' : 'pending';
+    updateStatus.updated_date = new Date();
+
+    await updateStatus.save();
+    res.status(200).json({updateStatus,message:'status updated'})
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
